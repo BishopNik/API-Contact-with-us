@@ -12,7 +12,7 @@ export function loadEnvFile(path = '.env', env = process.env) {
 
 export function loadConfig(env = process.env) {
   return {
-    port: integer(env.PORT, 3000),
+    port: integer(env.PORT, 3010),
     telegramToken: env.TELEGRAM_BOT_TOKEN || '',
     telegramChatId: env.TELEGRAM_CHAT_ID || '',
     projectOrigins: parseOrigins(env.PROJECT_ORIGINS),

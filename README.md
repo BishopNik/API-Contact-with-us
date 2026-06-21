@@ -56,10 +56,10 @@ if (!response.ok) throw new Error('Request failed');
 Четыре локальных проекта уже подключены через meta-настройку в их `index.html`:
 
 ```html
-<meta name="contact-api-origin" content="http://localhost:3000" />
+<meta name="contact-api-origin" content="http://localhost:3010" />
 ```
 
-После публикации API замените `http://localhost:3000` на его HTTPS origin во всех четырёх проектах. Это единственное место, где фронтендам нужен адрес API.
+После публикации API замените `http://localhost:3010` на его HTTPS origin во всех четырёх проектах. Это единственное место, где фронтендам нужен адрес API.
 
 ## Добавление проекта
 

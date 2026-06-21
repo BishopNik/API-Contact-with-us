@@ -10,7 +10,11 @@ export function createHandler(config, dependencies = {}) {
 
     const url = new URL(req.url, 'http://localhost');
     if (req.method === 'GET' && url.pathname === '/health') {
-      return json(res, 200, { ok: true, service: 'contact-api' });
+      return json(res, 200, {
+        ok: true,
+        service: 'contact-api',
+        telegramConfigured: Boolean(config.telegramToken && config.telegramChatId),
+      });
     }
 
     const match = url.pathname.match(/^\/api\/contact\/([a-z0-9-]+)$/);
