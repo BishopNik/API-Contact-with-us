@@ -7,6 +7,7 @@ export const projects = Object.freeze({
     fields: {
       name: text('Имя', { required: true, min: 2, max: 100 }),
       contact: text('Контакт', { required: true, min: 5, max: 160 }),
+      project: text('Проект', { max: 100 }),
       message: text('Пожелания', { max: 2000 }),
     },
   },

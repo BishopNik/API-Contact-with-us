@@ -5,7 +5,7 @@ import { formatTelegramMessage } from '../src/telegram.js';
 
 test('validates each current project contract', () => {
   const payloads = {
-    'a-house': { name: 'Anna', contact: '+48 123 456 789', message: 'Dom 120 m²' },
+    'a-house': { name: 'Anna', contact: '+48 123 456 789', project: 'family', message: 'Dom 120 m²' },
     'clean-space': { name: 'Anna', contact: 'a@b.pl', service: 'Office', message: '' },
     'led-flex': { name: 'Firma', email: 'hello@example.com', message: 'Ekran 4x2 m' },
     'laser-clean': { name: 'Jan', phone: '+48 123 456 789', email: 'jan@example.com', message: 'Rdza' },

@@ -30,7 +30,7 @@ Content-Type: application/json
 
 | Проект | Обязательные | Необязательные | Honeypot |
 |---|---|---|---|
-| A-House | `name`, `contact` | `message` | — |
+| A-House | `name`, `contact` | `project`, `message` | — |
 | Clean Space | `name`, `contact`, `service` | `message`, `lang` | `company` |
 | LED Flex | `name`, `email`, `message` | `phone`, `country`, `language` | `website` |
 | Laser Clean | `name`, `phone`, `email`, `message` | `language` | — |
@@ -52,6 +52,14 @@ if (!response.ok) throw new Error('Request failed');
 ```
 
 Для остальных сайтов меняется только последний сегмент URL. Существующие payload уже соответствуют контрактам. В `PROJECT_ORIGINS` нужно указать точные production origins без завершающего пути, например `https://example.com`.
+
+Четыре локальных проекта уже подключены через meta-настройку в их `index.html`:
+
+```html
+<meta name="contact-api-origin" content="http://localhost:3000" />
+```
+
+После публикации API замените `http://localhost:3000` на его HTTPS origin во всех четырёх проектах. Это единственное место, где фронтендам нужен адрес API.
 
 ## Добавление проекта
 
