@@ -14,6 +14,17 @@ npm start
 
 Бот должен быть добавлен в целевой чат. Для личного чата пользователь сначала отправляет боту `/start`; `TELEGRAM_CHAT_ID` — числовой ID пользователя/группы, не username.
 
+## Инструкция и Swagger
+
+После запуска доступны:
+
+- `GET /` или `GET /api/instructions` — JSON-инструкция с endpoints и полями форм;
+- `GET /openapi.json` — OpenAPI 3.1 схема;
+- `GET /docs` — интерактивный Swagger UI;
+- `GET /health` — состояние API и признак `telegramConfigured`.
+
+Локально Swagger открывается по адресу `http://localhost:3010/docs`.
+
 ## Endpoint
 
 ```text

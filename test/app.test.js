@@ -68,3 +68,21 @@ test('rejects an oversized body with 413', async () => {
     await new Promise(resolve => server.close(resolve));
   }
 });
+
+test('serves instructions, OpenAPI and Swagger UI', async () => {
+  await withServer(async () => {}, async base => {
+    const instructions = await fetch(`${base}/api/instructions`).then(response => response.json());
+    assert.equal(instructions.method, 'POST');
+    assert.equal(instructions.projects.length, 4);
+    assert.match(instructions.projects[0].endpoint, /\/api\/contact\//);
+
+    const openapi = await fetch(`${base}/openapi.json`).then(response => response.json());
+    assert.equal(openapi.openapi, '3.1.0');
+    assert.ok(openapi.paths['/api/contact/a-house'].post);
+    assert.ok(openapi.components.schemas.AHouseSubmission.properties.project);
+
+    const docsResponse = await fetch(`${base}/docs`);
+    assert.match(docsResponse.headers.get('content-type'), /^text\/html/);
+    assert.match(await docsResponse.text(), /SwaggerUIBundle/);
+  });
+});

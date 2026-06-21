@@ -1,5 +1,6 @@
 import { projects, validateSubmission } from './projects.js';
 import { formatTelegramMessage, sendTelegram } from './telegram.js';
+import { buildInstructions, buildOpenApi, swaggerHtml } from './openapi.js';
 
 export function createHandler(config, dependencies = {}) {
   const deliver = dependencies.sendTelegram || sendTelegram;
@@ -9,6 +10,16 @@ export function createHandler(config, dependencies = {}) {
     setSecurityHeaders(res);
 
     const url = new URL(req.url, 'http://localhost');
+    const baseUrl = requestBaseUrl(req, config.trustProxy);
+    if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/api/instructions')) {
+      return json(res, 200, buildInstructions(baseUrl));
+    }
+    if (req.method === 'GET' && url.pathname === '/openapi.json') {
+      return json(res, 200, buildOpenApi(baseUrl));
+    }
+    if (req.method === 'GET' && (url.pathname === '/docs' || url.pathname === '/docs/')) {
+      return html(res, 200, swaggerHtml());
+    }
     if (req.method === 'GET' && url.pathname === '/health') {
       return json(res, 200, {
         ok: true,
@@ -23,7 +34,7 @@ export function createHandler(config, dependencies = {}) {
     const projectKey = match[1];
     const project = projects[projectKey];
     const origin = req.headers.origin || '';
-    const originAllowed = isOriginAllowed(config, projectKey, origin);
+    const originAllowed = isOriginAllowed(config, projectKey, origin, req);
 
     if (origin && originAllowed) setCorsHeaders(res, origin);
     if (req.method === 'OPTIONS') {
@@ -58,10 +69,16 @@ export function createHandler(config, dependencies = {}) {
   };
 }
 
-function isOriginAllowed(config, projectKey, origin) {
+function isOriginAllowed(config, projectKey, origin, req) {
   if (!origin) return true;
   const allowed = config.projectOrigins[projectKey] || [];
-  return allowed.includes(origin) || (process.env.NODE_ENV !== 'production' && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin));
+  return origin === requestBaseUrl(req, config.trustProxy) || allowed.includes(origin) || (process.env.NODE_ENV !== 'production' && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin));
+}
+
+function requestBaseUrl(req, trustProxy) {
+  const forwardedProto = String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim();
+  const protocol = trustProxy && forwardedProto ? forwardedProto : (req.socket.encrypted ? 'https' : 'http');
+  return `${protocol}://${req.headers.host || 'localhost'}`;
 }
 
 function clientIp(req, trustProxy) {
@@ -129,6 +146,11 @@ function setCorsHeaders(res, origin) {
 function json(res, status, value, headers = {}) {
   res.writeHead(status, headers);
   res.end(JSON.stringify(value));
+}
+
+function html(res, status, value) {
+  res.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end(value);
 }
 
 function empty(res, status) {
