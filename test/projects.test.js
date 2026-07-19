@@ -9,6 +9,7 @@ test('validates each current project contract', () => {
     'clean-space': { name: 'Anna', contact: 'a@b.pl', service: 'Office', message: '' },
     'led-flex': { name: 'Firma', email: 'hello@example.com', message: 'Ekran 4x2 m' },
     'laser-clean': { name: 'Jan', phone: '+48 123 456 789', email: 'jan@example.com', message: 'Rdza' },
+    voltares: { name: 'Anna', contact: '+48 123 456 789', service: 'Consultation', message: 'Proszę o kontakt' },
   };
 
   for (const [key, payload] of Object.entries(payloads)) {

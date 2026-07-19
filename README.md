@@ -32,6 +32,7 @@ POST /api/contact/a-house
 POST /api/contact/clean-space
 POST /api/contact/led-flex
 POST /api/contact/laser-clean
+POST /api/contact/voltares
 Content-Type: application/json
 ```
 
@@ -45,6 +46,7 @@ Content-Type: application/json
 | Clean Space | `name`, `contact`, `service` | `message`, `lang` | `company` |
 | LED Flex | `name`, `email`, `message` | `phone`, `country`, `language` | `website` |
 | Laser Clean | `name`, `phone`, `email`, `message` | `language` | — |
+| Voltares | `name`, `contact` | `service`, `email`, `phone`, `message`, `language` | — |
 
 ## Подключение формы
 

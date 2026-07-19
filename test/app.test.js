@@ -73,13 +73,15 @@ test('serves instructions, OpenAPI and Swagger UI', async () => {
   await withServer(async () => {}, async base => {
     const instructions = await fetch(`${base}/api/instructions`).then(response => response.json());
     assert.equal(instructions.method, 'POST');
-    assert.equal(instructions.projects.length, 4);
+    assert.equal(instructions.projects.length, 5);
     assert.match(instructions.projects[0].endpoint, /\/api\/contact\//);
 
     const openapi = await fetch(`${base}/openapi.json`).then(response => response.json());
     assert.equal(openapi.openapi, '3.1.0');
     assert.ok(openapi.paths['/api/contact/a-house'].post);
+    assert.ok(openapi.paths['/api/contact/voltares'].post);
     assert.ok(openapi.components.schemas.AHouseSubmission.properties.project);
+    assert.ok(openapi.components.schemas.VoltaresSubmission.properties.contact);
 
     const docsResponse = await fetch(`${base}/docs`);
     assert.match(docsResponse.headers.get('content-type'), /^text\/html/);

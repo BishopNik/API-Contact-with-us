@@ -45,6 +45,19 @@ export const projects = Object.freeze({
       language: text('Язык', { max: 10 }),
     },
   },
+  voltares: {
+    title: 'Voltares',
+    honeypots: [],
+    fields: {
+      name: text('Имя', { required: true, min: 2, max: 100 }),
+      contact: text('Контакт', { required: true, min: 5, max: 160 }),
+      service: text('Услуга', { max: 100 }),
+      email: text('Email', { format: 'email', max: 160 }),
+      phone: text('Телефон', { max: 50 }),
+      message: text('Сообщение', { max: 2000 }),
+      language: text('Язык', { max: 10 }),
+    },
+  },
 });
 
 export function validateSubmission(project, body) {

@@ -76,8 +76,8 @@ export function buildOpenApi(baseUrl) {
     openapi: '3.1.0',
     info: {
       title: 'Multi-site Contact API',
-      version: '1.1.0',
-      description: 'Принимает заявки с A-House, Clean Space, LED Flex и Laser Clean и отправляет их в Telegram.',
+      version: '1.2.0',
+      description: 'Принимает заявки с A-House, Clean Space, LED Flex, Laser Clean и Voltares и отправляет их в Telegram.',
     },
     servers: [{ url: baseUrl }],
     tags: [{ name: 'Information' }, { name: 'Contact forms' }],
